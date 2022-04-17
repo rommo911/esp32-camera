@@ -455,7 +455,7 @@ void cam_start(void)
     ll_cam_vsync_intr_enable(cam_obj, true);
 }
 
-camera_fb_t *cam_take(TickType_t timeout)
+camera_fb_t IRAM_ATTR *cam_take(TickType_t timeout)
 {
     camera_fb_t *dma_buffer = NULL;
     TickType_t start = xTaskGetTickCount();
