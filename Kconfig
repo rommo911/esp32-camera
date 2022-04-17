@@ -87,6 +87,8 @@ menu "Camera configuration"
             bool "I2C1"
 
     endchoice
+    config CAMERA_TASK_IN_IRAM
+        bool "CAMERA_TASK_IN_IRAM"
 
     config SCCB_CLK_FREQ
     int "SCCB clk frequency"

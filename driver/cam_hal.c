@@ -18,6 +18,12 @@
 #include "ll_cam.h"
 #include "cam_hal.h"
 
+#ifdef CONFIG_CAMERA_TASK_IN_IRAM
+#define CAMERA_TASK_IRAM_ENABLED IRAM_ATTR
+#else 
+#define CAMERA_TASK_IRAM_ENABLED
+#endif
+
 #if (ESP_IDF_VERSION_MAJOR == 3) && (ESP_IDF_VERSION_MINOR == 3)
 #include "rom/ets_sys.h"
 #else
@@ -110,7 +116,7 @@ void IRAM_ATTR ll_cam_send_event(cam_obj_t *cam, cam_event_t cam_event, BaseType
 }
 
 //Copy fram from DMA dma_buffer to fram dma_buffer
-static void cam_task(void *arg)
+static CAMERA_TASK_IRAM_ENABLED void cam_task(void *arg)
 {
     int cnt = 0;
     int frame_pos = 0;
@@ -455,7 +461,7 @@ void cam_start(void)
     ll_cam_vsync_intr_enable(cam_obj, true);
 }
 
-camera_fb_t IRAM_ATTR *cam_take(TickType_t timeout)
+camera_fb_t CAMERA_TASK_IRAM_ENABLED *cam_take(TickType_t timeout)
 {
     camera_fb_t *dma_buffer = NULL;
     TickType_t start = xTaskGetTickCount();
